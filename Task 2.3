@@ -1,0 +1,92 @@
+#Выборка длины 20
+import scipy
+amms = []
+amml = []
+def mms(q):
+    t = 1
+    for i in range (n-1):
+        t *= (scipy.stats.norm.cdf(r[i+1], loc = q, scale = 1) - scipy.stats.norm.cdf(r[i], loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(r[0], loc = q, scale = 1) - scipy.stats.norm.cdf(-mth.inf, loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(mth.inf, loc = q, scale = 1) - scipy.stats.norm.cdf(r[n-1], loc = q, scale = 1))
+    return -t
+def mml(q):
+    t = 1
+    for i in range (n):
+        t *= scipy.stats.norm.pdf(r[i], loc = q, scale = 1)
+    return -t
+n = 20
+x0 = 1
+for j in range(100):
+    r = scipy.stats.norm.rvs(loc = 5, scale = 1, size = n)
+    r.sort()
+    res = minimize (mms, x0, method = 'Nelder-Mead')
+    amms.append(res.x)
+    res1 = minimize (mml, x0, method = 'Nelder-Mead')
+    amml.append(res1.x)
+std = 0
+for k in range(100):
+    std += (amms[k] - amml[k]) ** 2
+print(mth.sqrt(std/100))
+
+#Выборка длины 50
+
+import scipy
+amms = []
+amml = []
+def mms(q):
+    t = 1
+    for i in range (n-1):
+        t *= (scipy.stats.norm.cdf(r[i+1], loc = q, scale = 1) - scipy.stats.norm.cdf(r[i], loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(r[0], loc = q, scale = 1) - scipy.stats.norm.cdf(-mth.inf, loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(mth.inf, loc = q, scale = 1) - scipy.stats.norm.cdf(r[n-1], loc = q, scale = 1))
+    return -t
+def mml(q):
+    t = 1
+    for i in range (n):
+        t *= scipy.stats.norm.pdf(r[i], loc = q, scale = 1)
+    return -t
+n = 50
+x0 = 1
+for j in range(100):
+    r = scipy.stats.norm.rvs(loc = 5, scale = 1, size = n)
+    r.sort()
+    res = minimize (mms, x0, method = 'Nelder-Mead')
+    amms.append(res.x)
+    res1 = minimize (mml, x0, method = 'Nelder-Mead')
+    amml.append(res1.x)
+std = 0
+for k in range(100):
+    std += (amms[k] - amml[k]) ** 2
+print(mth.sqrt(std/100))
+
+#Выборка длины 100
+
+import scipy
+amms = []
+amml = []
+def mms(q):
+    t = 1
+    for i in range (n-1):
+        t *= (scipy.stats.norm.cdf(r[i+1], loc = q, scale = 1) - scipy.stats.norm.cdf(r[i], loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(r[0], loc = q, scale = 1) - scipy.stats.norm.cdf(-mth.inf, loc = q, scale = 1))
+    t *= (scipy.stats.norm.cdf(mth.inf, loc = q, scale = 1) - scipy.stats.norm.cdf(r[n-1], loc = q, scale = 1))
+    return -t
+def mml(q):
+    t = 1
+    for i in range (n):
+        t *= scipy.stats.norm.pdf(r[i], loc = q, scale = 1)
+    return -t
+n = 100
+x0 = 3
+m = 1000
+for j in range(m):
+    r = scipy.stats.norm.rvs(loc = 5, scale = 1, size = n)
+    r.sort()
+    res = minimize (mms, x0, method = 'Nelder-Mead')
+    amms.append(res.x)
+    res1 = minimize (mml, x0, method = 'Nelder-Mead')
+    amml.append(res1.x)
+std = 0
+for k in range(m):
+    std += (amms[k] - amml[k]) ** 2
+print(mth.sqrt(std/m))
