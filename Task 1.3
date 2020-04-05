@@ -1,0 +1,93 @@
+import numpy as np
+from random import randint
+from copy import deepcopy
+
+sem_count = [15, 15, 10, 8]
+count = 0
+sems = []
+for i in range (4):
+    sems.append ([count + j for j in range (sem_count[i])])
+    count += sem_count[i]
+sems
+
+c = 0
+map_c = {}
+for i in range (4):
+    for j in range (sem_count[i]):
+        map_c[c] = i
+        c += 1
+map_c[-1] = -1
+
+schedule = []
+c = 0
+for i in range (5):
+    schedule.append ([])
+    for j in range (5):
+        schedule[i].append ([])
+        for k in range (3):
+            schedule[i][j].append (-1)
+def init_schedule ():
+    c = 0
+    for i in range (3):
+        for j in range (5):
+            for k in range (5):
+                if c < count:
+                    schedule[k][j][i] = c
+                else:
+                    schedule[k][j][i] = -1
+                c += 1
+init_schedule ()
+def sem_is_free_for_n(i, j, k, n):
+    if (schedule[i][j][k] != -1):
+        return False
+    if map_c[schedule[i][j][(k+1)%3]] == map_c[n] or map_c[schedule[i][j][(k+2)%3]] == map_c[n]:
+        return False
+    return True
+        
+def move_one(a, b, c):
+    free = [[a,b,c]]
+    num = schedule[a][b][c]
+    for i in range (5):
+        for j in range (5):
+            for k in range (3):
+                if (sem_is_free_for_n (i,j,k,num)):
+                    free.append ([i,j,k])
+    n = randint (0, len (free)-1)
+    schedule[a][b][c] = -1
+    a,b,c = free[n]
+    schedule[a][b][c] = num
+    
+
+def move_all ():
+    shed_copy = deepcopy (schedule);
+    for i in range (5):
+        for j in range (5):
+            for k in range (3):
+                if shed_copy[i][j][k] != -1:
+                    move_one(i,j,k)
+
+
+    
+def is_bad ():
+    for i in range (5):
+        day = [0] * 4
+        for j in range (5):
+            for k in range (3):
+                if schedule[i][j][k] != -1:
+                    day[map_c[schedule[i][j][k]]] += 1
+        for c in day:
+            if c == 1:
+                return True
+    return False  
+
+
+goods = 0
+for i in range (1000):
+    init_schedule ()
+    for i in range (100):
+        move_all()
+    if not is_bad ():
+        print (schedule)
+        goods += 1
+goods
+# За несколько запусков получался результат от 1 до 10 хороших расписаний на 1000
